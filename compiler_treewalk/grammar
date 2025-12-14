@@ -1,0 +1,13 @@
+program     → (statement NEWLINE)* EOF
+
+statement   → assignment
+            | printStmt
+            | block
+
+block       → "{" NEWLINE
+               (statement NEWLINE)*
+               "}"
+
+assignment  → IDENTIFIER "=" expression
+printStmt   → "print" expression
+
