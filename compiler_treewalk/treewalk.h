@@ -58,8 +58,8 @@ private:
                 return;
             }
         }
-        // not found → create in current scope
-        scopes.back()[name] = value;
+
+    throw std::runtime_error("Undefined variable: " + name);
     }
 
 
@@ -73,6 +73,14 @@ private:
             SetVariable(assign->name, value);
             return;
         }
+
+        if (auto varDecl = dynamic_cast<const VarDeclStmt*>(stmt))
+        {
+            double value = EvaluateExpr(varDecl->initializer.get());
+            DeclareVariable(varDecl->name, value);
+            return;
+        }
+
 
         // Print: print expression
         if (auto print = dynamic_cast<const PrintStmt*>(stmt))
@@ -129,5 +137,17 @@ private:
 
         throw std::runtime_error("Unknown expression type");
     }
+
+    void DeclareVariable(const std::string& name, double value)
+    {
+        auto& scope = scopes.back();
+    
+        if (scope.count(name))
+            throw std::runtime_error("Variable already declared in this scope: " + name);
+    
+        scope[name] = value;
+    }
+
+
 };
 

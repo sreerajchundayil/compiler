@@ -67,3 +67,15 @@ struct BlockStmt : Stmt
     }
 };
 
+struct VarDeclStmt : Stmt
+{
+  std::string name;
+  std::unique_ptr<Expr> initializer;
+  
+  VarDeclStmt(const std::string& n, std::unique_ptr<Expr> init)
+        : name(n), initializer(std::move(init))
+  {
+  }
+
+};
+

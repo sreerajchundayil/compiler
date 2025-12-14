@@ -56,6 +56,9 @@ private:
         if (Match(TokenType::PRINT))
             return ParsePrint();
 
+        if(Match(TokenType::VAR))
+          return ParseVarDecl();
+
         if (Match(TokenType::LBRACE))
             return ParseBlock();
 
@@ -210,5 +213,16 @@ private:
     {
         return tokens[current - 1];
     }
+
+    std::unique_ptr<Stmt> ParseVarDecl()
+    {
+        Token name = Consume(TokenType::IDENTIFIER, "Expected variable name after 'var'");
+        Consume(TokenType::ASSIGN, "Expected '=' after variable name");
+    
+        auto init = ParseExpression();
+        return std::make_unique<VarDeclStmt>(name.lexeme, std::move(init));
+    }
+
+
 };
 

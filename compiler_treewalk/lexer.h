@@ -99,6 +99,9 @@ private:
 
         if (value == "print")
             return {TokenType::PRINT, value};
+        
+        if (value == "var")
+            return {TokenType::VAR, value};
 
         return {TokenType::IDENTIFIER, value};
     }

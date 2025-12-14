@@ -1,6 +1,7 @@
 program     → (statement NEWLINE)* EOF
 
-statement   → assignment
+statement   →  varDecl
+            | assignment
             | printStmt
             | block
 
@@ -10,4 +11,7 @@ block       → "{" NEWLINE
 
 assignment  → IDENTIFIER "=" expression
 printStmt   → "print" expression
+
+
+varDecl → "var" IDENTIFIER "=" expression
 
